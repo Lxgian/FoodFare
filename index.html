@@ -6,6 +6,37 @@
 
 	<body>
 		<h1>Food Fare by Lxgian</h1>
+		<h3>Cooking</h3>
+		<p>Basic gameplay functions</p>
+
+		<p>Potatoes: Cost($<span class="potatoCost">1</span>) <button onclick="buyPotatoes(1)">Buy 1</button> <br>
+			Potatoes owned: <span class="potatoes">0</span> / <span class="potatoesStorage">10</span>
+		</p>
+
+		<p>Potato Fries: Cost (<span class="potatoFriesCost">2</span> potatoes) <button onclick="cookPotatoFries(1)">Cook 1</button> <br>
+			Potato Fries owned: <span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span>
+		</p>
+
+		<p>Potato Fries: Sell for $<span class="potatoFriesValue">3</span> <button onclick="sellPotatoFries(1)">Sell 1</button> <br>
+			Potato Fries owned: <span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span>
+		</p>
+		<br>
+<!---------------------------------------------------------------------------------------->
+		<h3>Expand Storage</h3>
+		<p>Potato Storage: (<span class="potatoesStorage">10</span>) <button onclick="buyPotatoesStorage(1)">Expand ($<span class="potatoesStorageCost">20</span>)</button> <br>
+		<p>Potato Fries Storage: (<span class="potatoFriesStorage">10</span>) <button onclick="buyPotatoFriesStorage(1)">Expand ($<span class="potatoFriesStorageCost">20</span>)</button> <br>
+		</p>
+		<br>
+<!---------------------------------------------------------------------------------------->
+		<h3>Statistics</h3>
+		<p>Gameplay Statistics (total this game)</p> <br>
+
+		  <p>
+		  Goodwill: <span id="stat_goodwill">0</span> <br>
+		  FF Money: <span id="stat_ffmoney">10</span> <br>
+		  Potatoes: <span id="stat_potatoes">0</span> <br>
+		  Potato Fries: <span id="stat_potatoFries">0</span>
+		  </p>
 
 		<script type="text/javascript" src="main.js"></script>
 	</body>
