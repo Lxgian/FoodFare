@@ -1,42 +1,122 @@
 <html>
 	<head>
 		<title>Food Fare </title>
-		<link rel="stylesheet" type="text/css" href="interface.css" />
+		<link rel="stylesheet" type="text/css" href="main.css" />
 	</head>
+
+	<!--TO DO
+	1. Food:
+		potato -> ries
+		flour -> bread
+		meat -> sausage
+		potato + flour -> scallop
+		sausage + bread -> hotdog
+		egg -> fried
+		egg -> omellete
+		egg + potato -> egg potato salad
+		egg + bread -> egg toast/french toast
+
+		Potato:
+			baked
+			mashed
+			twister
+	2. Add Recipes
+	3. Unfolding mechanic
+	4. Move stats/ saves/ to a new js file
+	-->
 
 	<body>
 		<h1>Food Fare by Lxgian</h1>
-		<h3>Cooking</h3>
-		<p>Basic gameplay functions</p>
+		<h3><button onclick="toggleOptions()">Options</button> Read for new updates (01/07/19)</h3>
+			<div id='optionsWindow' style="display:none">
+				<p1><strong>Food Fare Options</strong> by Lxgian</p1>
+				<p><strong>Version 0.1.1 -- 01/07/19</strong></p>
+					<div>
+						<p>More testing</p>
+					</div>
+				<button onclick="save()">Save</button>
+				<button onclick="load()">Load</button>
+				<button onclick="reset()">Reset</button>
+				<button onclick="deleteSave()">Delete Save</button> <br>
+				<p>More: <a href="FF Changelog.html" target="_blank" title="Hello there, here you can find the full changelog :)",>Full Changelog</a></p>
+				<p><strong id="message"></strong></p>
+			</div>
 
-		<p>Potatoes: Cost($<span class="potatoCost">1</span>) <button onclick="buyPotatoes(1)">Buy 1</button> <br>
-			Potatoes owned: <span class="potatoes">0</span> / <span class="potatoesStorage">10</span>
-		</p>
+		<h3><button onclick="toggleTutorial()">Tutorial-ish</button> Click here for a mini tutorial</h3>
+			<div id='tutorialWindow' style="display:none">
+				<p1><strong>Food Fare Tutorial</strong> by Lxgian</p1>
+					<div>
+		      			<p> Your current only objective is to "BUY YOUR FREEDOM" with $100 </p>
+						<p> 1. Buy Potatoes </p>
+						<p>	2. Cook Potato Fries </p>
+						<p>	3. Sell Potato Fries </p>
+						<p>	4. Repeat </p>
+					</div>
+			</div>
 
-		<p>Potato Fries: Cost (<span class="potatoFriesCost">2</span> potatoes) <button onclick="cookPotatoFries(1)">Cook 1</button> <br>
-			Potato Fries owned: <span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span>
-		</p>
 
-		<p>Potato Fries: Sell for $<span class="potatoFriesValue">3</span> <button onclick="sellPotatoFries(1)">Sell 1</button> <br>
-			Potato Fries owned: <span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span>
-		</p>
-		<br>
-<!---------------------------------------------------------------------------------------->
-		<h3>Expand Storage</h3>
-		<p>Potato Storage: (<span class="potatoesStorage">10</span>) <button onclick="buyPotatoesStorage(1)">Expand ($<span class="potatoesStorageCost">20</span>)</button> <br>
-		<p>Potato Fries Storage: (<span class="potatoFriesStorage">10</span>) <button onclick="buyPotatoFriesStorage(1)">Expand ($<span class="potatoFriesStorageCost">20</span>)</button> <br>
-		</p>
-		<br>
-<!---------------------------------------------------------------------------------------->
-		<h3>Statistics</h3>
-		<p>Gameplay Statistics (total this game)</p> <br>
+		<p><button onclick="buyFreedom()">BUY YOUR FREEDOM</button> Required: FF Money $100</p>
+		<p>FF Money: $<span id="ffmoney">10</span></p>
 
-		  <p>
-		  Goodwill: <span id="stat_goodwill">0</span> <br>
-		  FF Money: <span id="stat_ffmoney">10</span> <br>
-		  Potatoes: <span id="stat_potatoes">0</span> <br>
-		  Potato Fries: <span id="stat_potatoFries">0</span>
-		  </p>
+		<!-- Tab links -->
+		<div class="tab">
+		  <button class="tablinks" onclick="openBarTab(event, 'Cooking')" id="defaultOpen">Cooking</button>
+		  <button class="tablinks" onclick="openBarTab(event, 'Inventory')">Inventory</button>
+		  <button class="tablinks" onclick="openBarTab(event, 'Recipes')">Recipes</button>
+			<button class="tablinks" onclick="openBarTab(event, 'Statistics')">Statistics</button>
+		</div>
+
+		<!-- Tab content -->
+		<div id="Cooking" class="tabcontent">
+			<h3>Cooking</h3>
+			<p>Basic gameplay functions</p>
+			<p>Potatoes: <span class="potatoes">0</span></p> <br>
+		</div>
+
+		<div id="Inventory" class="tabcontent">
+		  <h3>Inventory</h3>
+		  <p>Ingredients needed to cook, and cooked food</p> <br>
+
+--Potatoes--------------------
+			<p>Potatoes: Cost($<span class="potatoCost">1</span>) <button onclick="buyPotatoes(1)">Buy 1</button> <br>
+				Potatoes owned: <span class="potatoes">0</span> / <span class="potatoesStorage">10</span>
+			</p>
+
+			<p>Potato Fries: Cost (<span class="potatoFriesCost">2</span> potatoes) <button onclick="cookPotatoFries(1)">Cook 1</button> <br>
+				Potato Fries owned: <span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span>
+			</p>
+
+			<p>Potato Fries: Sell for $<span class="potatoFriesValue">3</span> <button onclick="sellPotatoFries(1)">Sell 1</button> <br>
+				Potato Fries owned: <span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span>
+			</p>
+			<br> <br>
+
+			<h3>Expand Storage</h3>
+			<p>Potato Storage: (<span class="potatoesStorage">10</span>) <button onclick="buyPotatoesStorage(1)">Expand ($<span class="potatoesStorageCost">20</span>)</button> <br>
+			<p>Potato Fries Storage: (<span class="potatoFriesStorage">10</span>) <button onclick="buyPotatoFriesStorage(1)">Expand ($<span class="potatoFriesStorageCost">20</span>)</button> <br>
+			</P>
+--------------------------
+		</div>
+
+
+		<div id="Recipes" class="tabcontent">
+		  <h3>Recipes</h3>
+		  <p>Recipes needed to unlock new food</p>
+		</div>
+
+		<div id="Statistics" class="tabcontent">
+		  <h3>Statistics</h3>
+		  <p>Gameplay Statistics (total this game)</p> <br>
+
+			<p>
+			Goodwill: <span id="stat_goodwill">0</span> <br>
+			FF Money: <span id="stat_ffmoney">10</span> <br>
+			Potatoes: <span id="stat_potatoes">0</span> <br>
+			Potato Fries: <span id="stat_potatoFries">0</span>
+			</p>
+
+		</div>
+
 
 		<script type="text/javascript" src="main.js"></script>
 	</body>
