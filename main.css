@@ -132,3 +132,44 @@ p {
     border: 1px solid #ccc;
     border-top: none;
   }
+
+/*----------------------------------------------------------------------------*/
+/*
+.showPotatoFries {
+    display: none;
+}
+*/
+.showPotatoes {
+	width: 20%;
+	/*padding: 0px 0;*/
+	text-align: left;
+	background-color: rgba(122, 184, 207, 0.3);
+	/*margin-top: 0px;*/
+}
+
+.showPotatoFries {
+    display: none;
+	width: 20%;
+	/*padding: 0px 0;*/
+	text-align: left;
+	background-color: rgba(122, 184, 207, 0.3);
+	/*margin-top: 0px;*/
+}
+
+.showFlour {
+	display: none;
+	width: 20%;
+	/*padding: 0px 0;*/
+	text-align: left;
+	background-color: rgba(122, 184, 207, 0.3);
+	/*margin-top: 0px;*/
+}
+
+.showCrackers {
+    display: none;
+	width: 20%;
+	/*padding: 0px 0;*/
+	text-align: left;
+	background-color: rgba(122, 184, 207, 0.3);
+	/*margin-top: 0px;*/
+}

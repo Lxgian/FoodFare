@@ -5,24 +5,8 @@
 	</head>
 
 	<!--TO DO
-	1. Food:
-		potato -> ries
-		flour -> bread
-		meat -> sausage
-		potato + flour -> scallop
-		sausage + bread -> hotdog
-		egg -> fried
-		egg -> omellete
-		egg + potato -> egg potato salad
-		egg + bread -> egg toast/french toast
-
-		Potato:
-			baked
-			mashed
-			twister
-	2. Add Recipes
-	3. Unfolding mechanic
-	4. Move stats/ saves/ to a new js file
+	1. Add Recipes
+	2. Move stats/ saves/ to a new js file
 	-->
 
 	<body>
@@ -30,9 +14,11 @@
 		<h3><button onclick="toggleOptions()">Options</button> Read for new updates (01/07/19)</h3>
 			<div id='optionsWindow' style="display:none">
 				<p1><strong>Food Fare Options</strong> by Lxgian</p1>
-				<p><strong>Version 0.1.1 -- 01/07/19</strong></p>
+				<p><strong>Version 0.1.2 -- 04/07/19</strong></p>
 					<div>
-						<p>More testing</p>
+						<p>Added Ingredient: Flour</p>
+						<p>Added Food: Crackers</p>
+						<p>System: Added Unfolding</p>
 					</div>
 				<button onclick="save()">Save</button>
 				<button onclick="load()">Load</button>
@@ -46,7 +32,7 @@
 			<div id='tutorialWindow' style="display:none">
 				<p1><strong>Food Fare Tutorial</strong> by Lxgian</p1>
 					<div>
-		      			<p> Your current only objective is to "BUY YOUR FREEDOM" with $100 </p>
+		      			<p> Your current only objective is to "BUY YOUR FREEDOM" with $200 </p>
 						<p> 1. Buy Potatoes </p>
 						<p>	2. Cook Potato Fries </p>
 						<p>	3. Sell Potato Fries </p>
@@ -55,14 +41,14 @@
 			</div>
 
 
-		<p><button onclick="buyFreedom()">BUY YOUR FREEDOM</button> Required: FF Money $100</p>
+		<p><button onclick="buyFreedom()">BUY YOUR FREEDOM</button> Required: FF Money $200</p>
 		<p>FF Money: $<span id="ffmoney">10</span></p>
 
 		<!-- Tab links -->
 		<div class="tab">
-		  <button class="tablinks" onclick="openBarTab(event, 'Cooking')" id="defaultOpen">Cooking</button>
-		  <button class="tablinks" onclick="openBarTab(event, 'Inventory')">Inventory</button>
-		  <button class="tablinks" onclick="openBarTab(event, 'Recipes')">Recipes</button>
+			<button class="tablinks" onclick="openBarTab(event, 'Cooking')" id="defaultOpen">Cooking</button>
+			<button class="tablinks" onclick="openBarTab(event, 'Inventory')">Inventory</button>
+			<button class="tablinks" onclick="openBarTab(event, 'Recipes')">Recipes</button>
 			<button class="tablinks" onclick="openBarTab(event, 'Statistics')">Statistics</button>
 		</div>
 
@@ -78,23 +64,35 @@
 		  <p>Ingredients needed to cook, and cooked food</p> <br>
 
 --Potatoes--------------------
-			<p>Potatoes: Cost($<span class="potatoCost">1</span>) <button onclick="buyPotatoes(1)">Buy 1</button> <br>
+			<p class="showPotatoes">Potatoes: Cost($<span class="potatoCost">1</span>) <button onclick="buyPotatoes(1)">Buy 1</button> <br>
 				Potatoes owned: <span class="potatoes">0</span> / <span class="potatoesStorage">10</span>
-			</p>
+				</p>
 
-			<p>Potato Fries: Cost (<span class="potatoFriesCost">2</span> potatoes) <button onclick="cookPotatoFries(1)">Cook 1</button> <br>
-				Potato Fries owned: <span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span>
-			</p>
+			<p class="showPotatoFries">
+					Potato Fries: Cost (<span class="potatoFriesCost">2</span> potatoes) <button onclick="cookPotatoFries(1)">Cook 1</button> <br>
+					Potato Fries: Sell for $<span class="potatoFriesValue">3</span> <button onclick="sellPotatoFries(1)">Sell 1</button> <br>
+					Potato Fries owned: <span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span>
+				</p>
 
-			<p>Potato Fries: Sell for $<span class="potatoFriesValue">3</span> <button onclick="sellPotatoFries(1)">Sell 1</button> <br>
-				Potato Fries owned: <span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span>
-			</p>
+			<p class="showFlour">Flour: Cost($<span class="flourCost">2</span>) <button onclick="buyFlour(1)">Buy 1</button> <br>
+				Flour owned: <span class="flour">0</span> / <span class="flourStorage">10</span>
+				</p>
+
+			<p class="showCrackers">
+					Crackers: Cost (<span class="crackersCost">1</span> flour) <button onclick="cookCrackers(1)">Cook 1</button> <br>
+					Crackers: Sell for $<span class="crackersValue">3</span> <button onclick="sellCrackers(1)">Sell 1</button> <br>
+					Crackers owned: <span class="crackers">0</span> / <span class="crackersStorage">10</span>
+				</p>
+
 			<br> <br>
 
 			<h3>Expand Storage</h3>
 			<p>Potato Storage: (<span class="potatoesStorage">10</span>) <button onclick="buyPotatoesStorage(1)">Expand ($<span class="potatoesStorageCost">20</span>)</button> <br>
 			<p>Potato Fries Storage: (<span class="potatoFriesStorage">10</span>) <button onclick="buyPotatoFriesStorage(1)">Expand ($<span class="potatoFriesStorageCost">20</span>)</button> <br>
-			</P>
+			<p>Flour Storage: (<span class="flourStorage">10</span>) <button onclick="buyFlourStorage(1)">Expand ($<span class="flourStorageCost">20</span>)</button> <br>
+			<p>Crackers Storage: (<span class="crackersStorage">10</span>) <button onclick="buyCrackersStorage(1)">Expand ($<span class="crackersStorageCost">20</span>)</button> <br>
+
+			</p>
 --------------------------
 		</div>
 
