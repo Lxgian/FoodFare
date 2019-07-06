@@ -11,7 +11,7 @@
 
 	<body>
 		<h1>Food Fare by Lxgian</h1>
-		<h3><button onclick="toggleOptions()">Options</button> Read for new updates (04/07/19)</h3>
+		<h3><button onclick="toggleOptions()">Options</button> Read for new updates (01/07/19)</h3>
 			<div id='optionsWindow' style="display:none">
 				<p1><strong>Food Fare Options</strong> by Lxgian</p1>
 				<p><strong>Version 0.1.2 -- 04/07/19</strong></p>
@@ -64,8 +64,9 @@
 		  <p>Ingredients needed to cook, and cooked food</p> <br>
 
 --Potatoes--------------------
-			<p class="showPotatoes">Potatoes: Cost($<span class="potatoCost">1</span>) <button onclick="buyPotatoes(1)">Buy 1</button> <br>
+			<p class="showPotatoes">Potatoes: Cost($<span class="potatoCost">1</span>) <button onclick="potatoes = buyIngredients(potatoes, 1, potatoesStorage, 'potatoes'); updateDisplay();">Buy 1</button> <br>
 				Potatoes owned: <span class="potatoes">0</span> / <span class="potatoesStorage">10</span>
+
 				</p>
 
 			<p class="showPotatoFries">
@@ -74,7 +75,7 @@
 					Potato Fries owned: <span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span>
 				</p>
 
-			<p class="showFlour">Flour: Cost($<span class="flourCost">2</span>) <button onclick="buyFlour(1)">Buy 1</button> <br>
+			<p class="showFlour">Flour: Cost($<span class="flourCost">2</span>) <button onclick="flour = buyIngredients(flour, 1, calcFlourCost, flourStorage, 'flour'); updateDisplay();">Buy 1</button> <br>
 				Flour owned: <span class="flour">0</span> / <span class="flourStorage">10</span>
 				</p>
 
