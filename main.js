@@ -1,130 +1,186 @@
 // SAVE CONSTANT
 var SAVE_NAME = 'foodCount.foodfare';
 
+const defaultStats = {
+	goodwill: 0,
+	ffmoney: 10,
+	potatoes: 0,
+	potatoFries: 0,
+	flour: 0,
+	crackers:0,
+}
 
 // GAMEPLAY VARIABLES
-var ffmoney = 10;
-var potatoes = 0;
-var potatoFries = 0;
-var flour = 0;
-var crackers = 0;
+const defaultIngredient = {
+	potatoes: 0,
+	flour: 0,
+}
 
+const defaultFood = {
+	potatoFries: 0,
+	crackers: 0,
+}
 // STORAGE VARIABLES
-var potatoesStorage = 10;
-var potatoFriesStorage = 10;
-var flourStorage = 10;
-var crackersStorage = 10;
+const defaultIngredientStorage = {
+	potatoes: 10,
+	flour: 10,
+}
 
+const defaultFoodStorage = {
+	potatoFries: 10,
+	crackers: 10,
+}
 
+var ffmoney = 10;
+var ingredient = JSON.parse(JSON.stringify(defaultIngredient));
+var food = JSON.parse(JSON.stringify(defaultFood));
+var ingredientStorage = JSON.parse(JSON.stringify(defaultIngredientStorage));
+var foodStorage = JSON.parse(JSON.stringify(defaultFoodStorage));
+var stats = JSON.parse(JSON.stringify(defaultStats));
 //----------------------------------------------------------------------------------------------
+var statsNode = {
+		goodwill: document.getElementById('stat_goodwill'),
+		ffmoney: document.getElementById('stat_ffmoney'),
+		potatoes: document.getElementById('stat_potatoes'),
+		potatoFries: document.getElementById('stat_potatoFries'),
+		flour: document.getElementById('stat_flour'),
+		crackers: document.getElementById('stat_crackers')
+}
 
-// DISPLAY VARIABLES -- ITEMS-COSTS-VALUES
 var ffmoneyNode = document.getElementById('ffmoney');
 
-var potatoNodes = document.getElementsByClassName('potatoes');
-var potatoCostNodes = document.getElementsByClassName('potatoCost');
-var potatoFriesNodes = document.getElementsByClassName('potatoFries');
-var potatoFriesCostNodes = document.getElementsByClassName('potatoFriesCost');
-var potatoFriesValueNodes = document.getElementsByClassName('potatoFriesValue');
 
-var flourNodes = document.getElementsByClassName('flour');
-var flourCostNodes = document.getElementsByClassName('flourCost');
-var crackersNodes = document.getElementsByClassName('crackers');
-var crackersCostNodes = document.getElementsByClassName('crackersCost');
-var crackersValueNodes = document.getElementsByClassName('crackersValue');
+// DISPLAY VARIABLES -- ITEMS-COSTS-VALUES
+var ingredientNodes = {
+	    potatoes: {
+	        current: document.getElementsByClassName('potatoes'),
+	        cost: document.getElementsByClassName('potatoCost'),
+	    },
+		flour: {
+ 		   current: document.getElementsByClassName('flour'),
+ 		   cost: document.getElementsByClassName('flourCost'),
+ 	   },
+};
+
+var foodNodes = {
+	    potatoFries: {
+	        current: document.getElementsByClassName('potatoFries'),
+	        cost: document.getElementsByClassName('potatoFriesCost'),
+	        value: document.getElementsByClassName('potatoFriesValue'),
+	    },
+		crackers: {
+	        current: document.getElementsByClassName('crackers'),
+	        cost: document.getElementsByClassName('crackersCost'),
+	        value: document.getElementsByClassName('crackersValue'),
+	    },
+};
 
 // DISPLAY VARIABLES -- STORAGE
-var potatoStorageNodes = document.getElementsByClassName('potatoesStorage');
-var potatoStorageCostNodes = document.getElementsByClassName('potatoesStorageCost');
-var potatoFriesStorageNodes = document.getElementsByClassName('potatoFriesStorage');
-var potatoFriesStorageCostNodes = document.getElementsByClassName('potatoFriesStorageCost');
+var ingredientStorageNodes = {
+	    potatoes: {
+	        current: document.getElementsByClassName('potatoesStorage'),
+	        cost: document.getElementsByClassName('potatoesStorageCost'),
+	    },
+		flour: {
+ 		   current: document.getElementsByClassName('flourStorage'),
+ 		   cost: document.getElementsByClassName('flourStorageCost'),
+ 	   },
+};
 
-var flourStorageNodes = document.getElementsByClassName('flourStorage');
-var flourStorageCostNodes = document.getElementsByClassName('flourStorageCost');
-var crackersStorageNodes = document.getElementsByClassName('crackersStorage');
-var crackersStorageCostNodes = document.getElementsByClassName('crackersStorageCost');
+var foodStorageNodes = {
+	    potatoFries: {
+	        current: document.getElementsByClassName('potatoFriesStorage'),
+	        cost: document.getElementsByClassName('potatoFriesStorageCost'),
+	    },
+		crackers: {
+	        current: document.getElementsByClassName('crackersStorage'),
+	        cost: document.getElementsByClassName('crackersStorageCost'),
+	    },
+};
 //-----------------------------------------------------------------------------------------------
 
 // UPDATES ITEMS-COSTS-VALUES
 function updateDisplay() {
-		ffmoneyNode.innerHTML = ffmoney;
+	ffmoneyNode.innerHTML = ffmoney;
 
-	for (var i = 0; i < potatoNodes.length; i++) {
-		potatoNodes[i].innerHTML = potatoes;
-		}
+	// --INGREDIENTS-------//
+	for (var i = 0; i < ingredientNodes.potatoes.current.length; i++) {
+	    ingredientNodes.potatoes.current[i].innerHTML = ingredient.potatoes;
+	}
 
-	for (var i = 0; i < potatoCostNodes.length; i++) {
-		potatoCostNodes[i].innerHTML = calcIngredientCost('potatoes');
-		}
+	for (var i = 0; i < ingredientNodes.potatoes.cost.length; i++) {
+		ingredientNodes.potatoes.cost[i].innerHTML = calcIngredientCost('potatoes');
+	}
 
-	for (var i = 0; i < potatoFriesNodes.length; i++) {
-        potatoFriesNodes[i].innerHTML = potatoFries;
-    	}
+	for (var i = 0; i < ingredientNodes.flour.current.length; i++) {
+		ingredientNodes.flour.current[i].innerHTML = ingredient.flour;
+	}
 
-	for (var i = 0; i < potatoFriesCostNodes.length; i++) {
-		potatoFriesCostNodes[i].innerHTML = calcPotatoFriesCost(potatoFries);
-		}
+	for (var i = 0; i < ingredientNodes.flour.cost.length; i++) {
+		ingredientNodes.flour.cost[i].innerHTML = calcIngredientCost('flour');
+	}
 
-	for (var i = 0; i < potatoFriesValueNodes.length; i++) {
-		potatoFriesValueNodes[i].innerHTML = calcPotatoFriesValue(stats.goodwill);
-		}
+	// --FOOD-------//
+	for (var i = 0; i < foodNodes.potatoFries.current.length; i++) {
+        foodNodes.potatoFries.current[i].innerHTML = food.potatoFries;
+	}
 
-	for (var i = 0; i < flourNodes.length; i++) {
-		flourNodes[i].innerHTML = flour;
-		}
+	for (var i = 0; i < foodNodes.potatoFries.cost.length; i++) {
+		foodNodes.potatoFries.cost[i].innerHTML = calcFoodCost('potatoFries');
+	}
 
-	for (var i = 0; i < flourCostNodes.length; i++) {
-		flourCostNodes[i].innerHTML = calcIngredientCost('flour');
-		}
+	for (var i = 0; i < foodNodes.potatoFries.value.length; i++) {
+		foodNodes.potatoFries.value[i].innerHTML = calcPotatoFriesValue(stats.goodwill);
+	}
 
-	for (var i = 0; i < crackersNodes.length; i++) {
-        crackersNodes[i].innerHTML = crackers;
-    	}
+	for (var i = 0; i < foodNodes.crackers.current.length; i++) {
+        foodNodes.crackers.current[i].innerHTML = food.crackers;
+	}
 
-	for (var i = 0; i < crackersCostNodes.length; i++) {
-		crackersCostNodes[i].innerHTML = calcCrackersCost(crackers);
-		}
+	for (var i = 0; i < foodNodes.crackers.cost.length; i++) {
+		foodNodes.crackers.cost[i].innerHTML = calcFoodCost('crackers');
+	}
 
-	for (var i = 0; i < crackersValueNodes.length; i++) {
-		crackersValueNodes[i].innerHTML = calcCrackersValue(stats.goodwill);
-		}
+	for (var i = 0; i < foodNodes.crackers.value.length; i++) {
+		foodNodes.crackers.value[i].innerHTML = calcCrackersValue(stats.goodwill);
+	}
 
+////// UPDATES STORAGE-------------------------------
+	// --INGREDIENTS-------//
+	for (var i = 0; i < ingredientStorageNodes.potatoes.current.length; i++) {
+		ingredientStorageNodes.potatoes.current[i].innerHTML = ingredientStorage.potatoes;
+	}
 
-// UPDATES STORAGE-------------------------------
+	for (var i = 0; i < ingredientStorageNodes.potatoes.cost.length; i++) {
+		ingredientStorageNodes.potatoes.cost[i].innerHTML = calcPotatoStorageCost(ingredientStorage.potatoes);
+	}
 
-	for (var i = 0; i < potatoStorageNodes.length; i++) {
-        potatoStorageNodes[i].innerHTML = potatoesStorage;
-    	}
+	for (var i = 0; i < ingredientStorageNodes.flour.current.length; i++) {
+		ingredientStorageNodes.flour.current[i].innerHTML = ingredientStorage.flour;
+	}
 
-	for (var i = 0; i < potatoStorageCostNodes.length; i++) {
-        potatoStorageCostNodes[i].innerHTML = calcPotatoStorageCost(potatoesStorage);
-    	}
+	for (var i = 0; i < ingredientStorageNodes.flour.cost.length; i++) {
+		ingredientStorageNodes.flour.cost[i].innerHTML = calcFlourStorageCost(ingredientStorage.flour);
+	}
 
-	for (var i = 0; i < potatoFriesStorageNodes.length; i++) {
-        potatoFriesStorageNodes[i].innerHTML = potatoFriesStorage;
-    	}
+	// --FOOD-------//
+	for (var i = 0; i < foodStorageNodes.potatoFries.current.length; i++) {
+		foodStorageNodes.potatoFries.current[i].innerHTML = foodStorage.potatoFries;
+	}
 
-	for (var i = 0; i < potatoFriesStorageCostNodes.length; i++) {
-        potatoFriesStorageCostNodes[i].innerHTML = calcPotatoFriesStorageCost(potatoFriesStorage);
-    	}
+	for (var i = 0; i < foodStorageNodes.potatoFries.cost.length; i++) {
+		foodStorageNodes.potatoFries.cost[i].innerHTML = calcPotatoFriesStorageCost(foodStorage.potatoFries);
+	}
 
-	for (var i = 0; i < flourStorageNodes.length; i++) {
-		flourStorageNodes[i].innerHTML = flourStorage;
-		}
+	for (var i = 0; i < foodStorageNodes.crackers.current.length; i++) {
+		foodStorageNodes.crackers.current[i].innerHTML = foodStorage.crackers;
+	}
 
-	for (var i = 0; i <flourStorageCostNodes.length; i++) {
-		flourStorageCostNodes[i].innerHTML = calcFlourStorageCost(flourStorage);
-		}
+	for (var i = 0; i < foodStorageNodes.crackers.cost.length; i++) {
+		foodStorageNodes.crackers.cost[i].innerHTML = calcCrackersStorageCost(foodStorage.crackers);
+	}
 
-	for (var i = 0; i < crackersStorageNodes.length; i++) {
-		crackersStorageNodes[i].innerHTML = crackersStorage;
-		}
-
-	for (var i = 0; i < crackersStorageCostNodes.length; i++) {
-		crackersStorageCostNodes[i].innerHTML = calcCrackersStorageCost(crackersStorage);
-		}
-
-// UNFOLDING FEATURE-------------------------------
+////// UNFOLDING FEATURE-------------------------------
 	if (stats.potatoes >= 0) {
 		var showPotatoFriesNodes = document.getElementsByClassName('showPotatoFries');
 		for(var i = 0; i < showPotatoFriesNodes.length; i++) {
@@ -146,9 +202,7 @@ function updateDisplay() {
 			}
 		}
 
-
-// UPDATES STATS-------------------------------
-
+////// UPDATES STATS-------------------------------
 	statsNode.goodwill.innerHTML = stats.goodwill;
     statsNode.ffmoney.innerHTML = stats.ffmoney;
 	statsNode.potatoes.innerHTML = stats.potatoes;
@@ -156,59 +210,33 @@ function updateDisplay() {
 	statsNode.flour.innerHTML = stats.flour;
     statsNode.crackers.innerHTML = stats.crackers;
 
-
 }
 
-// STATISTICS-----------------------------------------------------------------
-const defaultStats = {
-	goodwill: 0,
-	ffmoney: 10,
-	potatoes: 0,
-	potatoFries: 0,
-	flour: 0,
-	crackers:0,
-};
-
-var stats = JSON.parse(JSON.stringify(defaultStats));
-
-var statsNode = {
-	goodwill: document.getElementById('stat_goodwill'),
-	ffmoney: document.getElementById('stat_ffmoney'),
-	potatoes: document.getElementById('stat_potatoes'),
-	potatoFries: document.getElementById('stat_potatoFries'),
-	flour: document.getElementById('stat_flour'),
-	crackers: document.getElementById('stat_crackers')
-}
-
-//-----------------------------------------------------------------------------------------------
-
-// POTATOES-------------------------------
-
-///////////////////////////////////////////////////////////
 
 
-function buyIngredients(ingredient, purchaseCount, storage, statName) {
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+function buyIngredient(ingredientAmount, purchaseCount, ingredientName) {
     for (var i = 0; i < purchaseCount; i++) {
-        var cost = calcIngredientCost(statName);
-        if (cost <= ffmoney && ingredient < storage) {
-            ingredient++;
+        var cost = calcIngredientCost(ingredientName);
+        if (cost <= ffmoney && ingredient[ingredientName] < ingredientStorage[ingredientName]) {
+            ingredientAmount++;
             ffmoney -= cost;
-            stats[statName]++;
+            stats[ingredientName]++;
         } else {
             break;
         }
     }
-    return ingredient;
+    return ingredientAmount;
 }
-
 
 function calcIngredientCost(name) {
     switch(name) {
         case 'potatoes':
-            if (potatoes < 50) {
+            if (ingredient.potatoes < 50) {
                 return 1;
             } else {
-                return math.Round( math.Pow(potatoes, 1.1));
+                return Math.round( Math.pow(ingredient.potatoes, 1.1));
             }
         case 'flour':
             return 2;
@@ -217,25 +245,14 @@ function calcIngredientCost(name) {
     }
 }
 
-
-/*
-function calcPotatoCost(potatoCount) {
-	return 1
-}
-
-function calcFlourCost(flourCount) {
-	return 2
-}
-*/
-
 function buyPotatoesStorage(count) {
 	//buy this many PotatoesStorage
 	for (var i = 0; i < count; i++) {
-		var potatoesStorageCost = calcPotatoStorageCost(potatoesStorage);
+		var potatoesStorageCost = calcPotatoStorageCost(ingredientStorage.potatoes);
 		if (potatoesStorageCost <= ffmoney) {
-			potatoesStorage += 10;
+			ingredientStorage.potatoes += 10;
 			ffmoney -= potatoesStorageCost;
-			console.log('MARK Potato Storage--', `FF Money: ${ffmoney},Potato Storage: ${potatoesStorage}, Potato Storage Cost: ${potatoesStorageCost}`);
+			console.log('MARK Potato Storage--', `FF Money: ${ffmoney},Potato Storage: ${ingredientStorage.potatoes}, Potato Storage Cost: ${potatoesStorageCost}`);
 		} else {
 			break;
 		}
@@ -249,33 +266,64 @@ function calcPotatoStorageCost(potatoesStorageCount) {
 
 // POTATO FRIES-------------------------------
 
+function cookFood(foodAmount, ingredientAmount, purchaseCount, foodName) {
+    for (var i = 0; i < purchaseCount; i++) {
+        var cost = calcFoodCost(foodName);
+        if (cost <= ingredientAmount && food[foodName] < foodStorage[foodName]) {
+            foodAmount++;
+            ingredientAmount -= cost;
+            stats[foodName]++;
+        } else {
+            break;
+        }
+    }
+	return {foodAmount: foodAmount, ingredientAmount: ingredientAmount};
+}
+
+function calcFoodCost(name) {
+    switch(name) {
+        case 'potatoFries':
+            if (food.potatoFries < 50) {
+                return 2;
+            } else {
+                return Math.round( Math.pow(food.potatoFries, 1.1));
+            }
+        case 'crackers':
+            return 1;
+        default:
+            throw new Error(`Unknown ingredient ${name}`);
+    }
+}
+
+/*
 function cookPotatoFries(count) {
 	for (var i = 0; i < count; i++) {
-		var potatoFriesCost = calcPotatoFriesCost(potatoFries);
-		if ((potatoFriesCost <= potatoes) && (potatoFries < potatoFriesStorage)) {
-			potatoFries++;
+		var potatoFriesCost = calcPotatoFriesCost(food.potatoFries);
+		if ((potatoFriesCost <= ingredient.potatoes) && (food.potatoFries < foodStorage.potatoFries)) {
+			food.potatoFries++;
 			stats.potatoFries++;
-			potatoes -= potatoFriesCost;
-			console.log('MARK 2', `Potatoes: ${potatoes}, Potato Fries: ${potatoFries},Potato Fries Cost: ${potatoFriesCost}`);
+			ingredient.potatoes -= potatoFriesCost;
+			console.log('MARK cookPotatoFries', `Potatoes: ${ingredient.potatoes}, Potato Fries: ${food.potatoFries},Potato Fries Cost: ${potatoFriesCost}`);
 		} else {
 			break;
 		}
 	}
 	updateDisplay();
 }
+*/
 
-
+/*
 function calcPotatoFriesCost(potatoFriesCount) {
 	return 2
-}
+} */
 
 function sellPotatoFries(count) {
 	for (var i = 0; i < count; i++) {
 		var potatoFriesValue = calcPotatoFriesValue(stats.goodwill)
-		if (count <= potatoFries) {
+		if (count <= food.potatoFries) {
 			ffmoney += potatoFriesValue;
 			stats.ffmoney += potatoFriesValue;
-			potatoFries -= count;
+			food.potatoFries -= count;
 		} else {
 			break;
 		}
@@ -309,26 +357,7 @@ function calcPotatoFriesStorageCost(potatoFriesStorageCount) {
 }
 
 // FLOUR-------------------------------
-/*
-function buyFlour(count) {
-	for (var i = 0; i < count; i++) {
-		var flourCost = calcFlourCost(flour);
-		if ((flourCost <= ffmoney) && (flour < flourStorage)) {
-			flour++;
-			stat_flour++;
-			ffmoney -= flourCost;
-		} else {
-			break;
-		}
-	}
-	updateDisplay();
-}
-*/
-/*
-function calcFlourCost(flourCount) {
-	return 2
-}
-*/
+
 
 function buyFlourStorage(count) {
 	for (var i = 0; i < count; i++) {
@@ -352,12 +381,12 @@ function calcFlourStorageCost(flourStorageCount) {
 
 function cookCrackers(count) {
 	for (var i = 0; i < count; i++) {
-		var crackersCost = calcCrackersCost(crackers);
-		if ((crackersCost <= flour) && (crackers < crackersStorage)) {
-			crackers++;
+		var crackersCost = calcCrackersCost(food.crackers);
+		if ((crackersCost <= ingredient.flour) && (food.crackers < foodStorage.crackers)) {
+			food.crackers++;
 			stats.crackers++;
-			flour -= crackersCost;
-			//-----------
+			ingredient.flour -= crackersCost;
+			console.log('MARK cookCrackers', `Flour: ${ingredient.flour}, Crackers: ${food.crackers},Crackers Cost: ${crackersCost}`);
 		} else {
 			break;
 		}
@@ -365,18 +394,18 @@ function cookCrackers(count) {
 	updateDisplay();
 }
 
-
+/*
 function calcCrackersCost(crackersCount) {
 	return 1
-}
+} */
 
 function sellCrackers(count) {
 	for (var i = 0; i < count; i++) {
 		var crackersValue = calcCrackersValue(stats.goodwill) // * (1 + (0.1 * (goodwill -1))) ;
-		if (count <= crackers) {
+		if (count <= food.crackers) {
 			ffmoney += crackersValue;
 			stats.ffmoney += crackersValue;
-			crackers -= count;
+			food.crackers -= count;
 		} else {
 			break;
 		}
@@ -464,61 +493,41 @@ document.getElementById("defaultOpen").click();
 function save() {
 	var saveobject = {
 		ffmoney: ffmoney,
-		potatoes: potatoes,
-		potatoFries: potatoFries,
-		flour: flour,
-		crackers: crackers,
-
-		potatoesStorage: potatoesStorage,
-		potatoFriesStorage: potatoFriesStorage,
-		flourStorage: flourStorage,
-		crackersStorage: crackersStorage,
-
+		ingredient: JSON.parse(JSON.stringify(ingredient)),
+        food: JSON.parse(JSON.stringify(food)),
+		ingredientStorage: JSON.parse(JSON.stringify(ingredientStorage)),
+        foodStorage: JSON.parse(JSON.stringify(foodStorage)),
 		stats: JSON.parse(JSON.stringify(stats)),
 	};
 	try {
 		localStorage.setItem(SAVE_NAME, JSON.stringify( saveobject ));
-    console.log('Saved', `Goodwill: ${stats.goodwill}, FF Money: ${ffmoney}, Potatoes: ${potatoes}, Flour: ${flour},
-						Potato Storage: ${potatoesStorage}, Potato Fries Storage: ${potatoFriesStorage}, Flour Storage: ${flourStorage}, Crackers Storage: ${crackersStorage}`);
+    console.log('Saved', `Goodwill: ${stats.goodwill}, FF Money: ${ffmoney}, Potatoes: ${ingredient.potatoes}, Flour: ${ingredient.flour}`);
     setMessage('Food Fare Saved!');
 	} catch(e) {
 		console.error('Save Error:', e);
 	}
 }
 
-
-
 function load() {
 	try {
 		var obj = localStorage.getItem(SAVE_NAME);
 		obj = obj ? JSON.parse(obj) : {
-			stats: JSON.parse(JSON.stringify(defaultStats)),
 			ffmoney: 10,
-			potatoes: 0,
-			potatoFries: 0,
-			flour: 0,
-			crackers: 0,
-			potatoesStorage: 10,
-			potatoFriesStorage:10,
-			flourStorage: 10,
-			crackersStorage: 10
+			ingredient: JSON.parse(JSON.stringify(defaultIngredient)),
+			food: JSON.parse(JSON.stringify(defaultFood)),
+			ingredientStorage: JSON.parse(JSON.stringify(defaultIngredientStorage)),
+			foodStorage: JSON.parse(JSON.stringify(defaultFoodStorage)),
+			stats: JSON.parse(JSON.stringify(defaultStats)),
 		};
 
+		ffmoney = obj.ffmoney;
+		ingredient = JSON.parse(JSON.stringify(obj.ingredient));
+		food = JSON.parse(JSON.stringify(obj.food));
+		ingredientStorage = JSON.parse(JSON.stringify(obj.ingredientStorage));
+		foodStorage = JSON.parse(JSON.stringify(obj.foodStorage));
 		stats = JSON.parse(JSON.stringify(obj.stats));
 
-		ffmoney = obj.ffmoney;
-		potatoes = obj.potatoes;
-		potatoFries = obj.potatoFries;
-		flour = obj.flour;
-		crackers = obj.crackers;
-
-		potatoesStorage = obj.potatoesStorage;
-		potatoFriesStorage = obj.potatoFriesStorage;
-		flourStorage = obj.flourStorage;
-		crackersStorage = obj.crackersStorage;
-
-    	console.log('Loaded saved game from localStorage', `Goodwill: ${stats.goodwill}, FF Money: ${ffmoney}, Potatoes: ${potatoes}, Flour: ${flour},
-														Potato Storage: ${potatoesStorage}, Potato Fries Storage: ${potatoFriesStorage}, Flour Storage: ${flourStorage}, Crackers Storage: ${crackersStorage}`);
+    	console.log('Loaded saved game from localStorage', `Goodwill: ${stats.goodwill}, FF Money: ${ffmoney}, Potatoes: ${ingredient.potatoes}, Flour: ${ingredient.flour}`);
     	setMessage('Food Fare Loaded!');
 		updateDisplay();
 	} catch(e) {
@@ -528,16 +537,10 @@ function load() {
 
 function reset() {
 	ffmoney = 10;
-	potatoes = 0;
-	potatoFries = 0;
-	flour = 0;
-	crackers = 0;
-
-	potatoesStorage = 10;
-	potatoFriesStorage = 10;
-	flourStorage = 10;
-	crackersStorage = 10;
-
+	ingredient = JSON.parse(JSON.stringify(defaultIngredient));
+	food = JSON.parse(JSON.stringify(defaultFood));
+	ingredientStorage = JSON.parse(JSON.stringify(defaultIngredientStorage));
+	foodStorage = JSON.parse(JSON.stringify(defaultFoodStorage));
 	stats = JSON.parse(JSON.stringify(defaultStats));
 
 	setMessage('Food Fare save file reset!');
@@ -590,7 +593,7 @@ function toggleTutorial(){
 
 //run the cursors
 setInterval(function() {
-	console.log(ffmoney, potatoes, flour)
+	console.log(ffmoney, ingredient.potatoes, ingredient.flour)
 //	updateDisplay();
 
 }, 1000);
