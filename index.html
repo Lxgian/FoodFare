@@ -93,29 +93,25 @@
 
 			<div class="showPotatoes showFoodStyle">
 				<p>Potatoes: (<span class="potatoes">0</span> / <span class="potatoesStorage">10</span>) </p>
-				<p>Cost($<span class="potatoCost">1</span>): <button onclick="ingredient.potatoes = buyIngredient(ingredient.potatoes, 1, 'potatoes'); updateDisplay();">Buy 1</button> </p>
-			</div>
-
-			<div class="showPotatoes showFoodStyle">
-				<p>Potatoes: Cost($<span class="potatoCost">1</span>) <button onclick="ingredient.potatoes = buyIngredient(ingredient.potatoes, 1, 'potatoes'); updateDisplay();">Buy 1</button> </p>
-				<p>Potatoes owned: <span class="potatoes">0</span> / <span class="potatoesStorage">10</span> </p>
+				<p>Cost ($<span class="potatoCost">1</span>): <button onclick="ingredient.potatoes = buyIngredient(ingredient.potatoes, 1, 'potatoes'); updateDisplay();">Buy 1</button> </p>
 			</div>
 
 			<div class="showPotatoFries showFoodStyle">
-				<p>Potato Fries: Cost (<span class="potatoFriesCost">2</span> potatoes) <button onclick="var obj = cookFood(food.potatoFries, ingredient.potatoes, 1, 'potatoFries'); food.potatoFries = obj.foodAmount; ingredient.potatoes = obj.ingredientAmount; updateDisplay();">Cook 1</button> </p>
-				<p>Potato Fries: Sell for $<span class="potatoFriesValue">3</span> <button onclick="food.potatoFries = sellFood(food.potatoFries, 1, 'potatoFries'); updateDisplay();">Sell 1</button> </p>
-				<p>Potato Fries owned: <span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span> </p>
+				<p>Potato Fries: (<span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span>) </p>
+				<p>Cost (<span class="potatoFriesCost">2</span> potatoes): <button onclick="var obj = cookFood(food.potatoFries, ingredient.potatoes, 1, 'potatoFries'); food.potatoFries = obj.foodAmount; ingredient.potatoes = obj.ingredientAmount; updateDisplay();">Cook 1</button> </p>
+				<p>Sell ($<span class="potatoFriesValue">3</span>): <button onclick="food.potatoFries = sellFood(food.potatoFries, 1, 'potatoFries'); updateDisplay();">Sell 1</button> </p>
 			</div>
 
+
 			<div class="showFlour showFoodStyle">
-				<p>Flour: Cost($<span class="flourCost">2</span>) <button onclick="ingredient.flour = buyIngredient(ingredient.flour, 1, 'flour'); updateDisplay();">Buy 1</button> </p>
-				<p>Flour owned: <span class="flour">0</span> / <span class="flourStorage">10</span> </p>
+				<p>Flour: (<span class="flour">0</span> / <span class="flourStorage">10</span>) </p>
+				<p>Cost ($<span class="flourCost">2</span>) <button onclick="ingredient.flour = buyIngredient(ingredient.flour, 1, 'flour'); updateDisplay();">Buy 1</button> </p>
 			</div>
 
 			<div class="showCrackers showFoodStyle">
-				<p>Crackers: Cost (<span class="crackersCost">1</span> flour) <button onclick="var obj = cookFood(food.crackers, ingredient.flour, 1, 'crackers'); food.crackers = obj.foodAmount; ingredient.flour = obj.ingredientAmount; updateDisplay();">Cook 1</button>  </p>
-				<p>Crackers: Sell for $<span class="crackersValue">3</span> <button onclick="food.crackers = sellFood(food.crackers, 1, 'crackers'); updateDisplay();">Sell 1</button>  </p>
-				<p>Crackers owned: <span class="crackers">0</span> / <span class="crackersStorage">10</span> </p>
+				<p>Crackers: (<span class="crackers">0</span> / <span class="crackersStorage">10</span>) </p>
+				<p>Cost (<span class="crackersCost">1</span> flour): <button onclick="var obj = cookFood(food.crackers, ingredient.flour, 1, 'crackers'); food.crackers = obj.foodAmount; ingredient.flour = obj.ingredientAmount; updateDisplay();">Cook 1</button>  </p>
+				<p>Sell ($<span class="crackersValue">3</span>): <button onclick="food.crackers = sellFood(food.crackers, 1, 'crackers'); updateDisplay();">Sell 1</button>  </p>
 			</div>
 
 			<br>
@@ -135,6 +131,7 @@
 						<p>Crackers Storage: (<span class="crackersStorage">10</span>) <button onclick="foodStorage.crackers = buyStorage(foodStorage.crackers, 1, 'crackersStorage'); updateDisplay();">Expand ($<span class="crackersStorageCost">20</span>)</button></p>
 					</div>
 			</div>
+
 --------------------------
 		</div>
 

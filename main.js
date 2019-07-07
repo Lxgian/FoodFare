@@ -194,21 +194,21 @@ function updateDisplay() {
 			}
 		}
 
-	if (stats.potatoes >= 0) {
+	if (stats.potatoes >= 10) {
 		var showPotatoFriesNodes = document.getElementsByClassName('showPotatoFries');
 		for(var i = 0; i < showPotatoFriesNodes.length; i++) {
 			showPotatoFriesNodes[i].style.display = "block";
 			}
 		}
 
-	if (stats.potatoFries >= 0) {
+	if (stats.potatoFries >= 10) {
 		var showFlourNodes = document.getElementsByClassName('showFlour');
 		for(var i = 0; i < showFlourNodes.length; i++) {
 			showFlourNodes[i].style.display = "block";
 			}
 		}
 
-	if (stats.flour >= 0) {
+	if (stats.flour >= 10) {
 		var showCrackersNodes = document.getElementsByClassName('showCrackers');
 		for(var i = 0; i < showCrackersNodes.length; i++) {
 			showCrackersNodes[i].style.display = "block";

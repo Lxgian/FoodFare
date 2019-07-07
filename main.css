@@ -139,7 +139,7 @@ border-top: none;
 
 /*////UNFOLDING FEATURE/////UNFOLDING FEATURE/////UNFOLDING FEATURE////////////////////*/
 /*////UNFOLDING FEATURE/////UNFOLDING FEATURE/////UNFOLDING FEATURE////////////////////*/
-/
+
 .showStorage {
 	display: none;
 	width: 100%;
@@ -163,9 +163,10 @@ border-top: none;
 	display: none;
 }
 
+
 .showPotatoes p, .showPotatoFries p, .showFlour p, .showCrackers p{
-	line-height: 0;
+	line-height: 1em;
 	margin:0.5em 0;
 	text-indent: 5px;
-	margin-top: 0px;
+	margin: 5px;
 }
