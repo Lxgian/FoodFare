@@ -5,14 +5,16 @@ const defaultStats = {
 	goodwill: 0,
 	ffmoney: 10,
 	potatoes: 0,
-	potatoFries: 0,
 	flour: 0,
+	milk: 0,
+	potatoFries: 0,
 	crackers:0,
 }
 
 // GAMEPLAY VARIABLES
 const defaultIngredient = {
 	potatoes: 0,
+	milk: 0,
 	flour: 0,
 }
 
@@ -23,6 +25,7 @@ const defaultFood = {
 // STORAGE VARIABLES
 const defaultIngredientStorage = {
 	potatoes: 10,
+	milk: 10,
 	flour: 10,
 }
 
@@ -42,8 +45,10 @@ var statsNode = {
 		goodwill: document.getElementById('stat_goodwill'),
 		ffmoney: document.getElementById('stat_ffmoney'),
 		potatoes: document.getElementById('stat_potatoes'),
-		potatoFries: document.getElementById('stat_potatoFries'),
+		milk: document.getElementById('stat_milk'),
 		flour: document.getElementById('stat_flour'),
+
+		potatoFries: document.getElementById('stat_potatoFries'),
 		crackers: document.getElementById('stat_crackers')
 }
 
@@ -54,11 +59,16 @@ var ingredientNodes = {
 	    potatoes: {
 	        current: document.getElementsByClassName('potatoes'),
 	        cost: document.getElementsByClassName('potatoCost'),
-	    },
+		},
+		milk: {
+		   current: document.getElementsByClassName('milk'),
+		   cost: document.getElementsByClassName('milkCost'),
+		},
 		flour: {
  		   current: document.getElementsByClassName('flour'),
  		   cost: document.getElementsByClassName('flourCost'),
- 	   },
+	   	},
+
 };
 
 var foodNodes = {
@@ -80,10 +90,14 @@ var ingredientStorageNodes = {
 	        current: document.getElementsByClassName('potatoesStorage'),
 	        cost: document.getElementsByClassName('potatoesStorageCost'),
 	    },
+		milk: {
+ 		   current: document.getElementsByClassName('milkStorage'),
+ 		   cost: document.getElementsByClassName('milkStorageCost'),
+ 	   	},
 		flour: {
  		   current: document.getElementsByClassName('flourStorage'),
  		   cost: document.getElementsByClassName('flourStorageCost'),
- 	   },
+ 	   	},
 };
 
 var foodStorageNodes = {
@@ -109,6 +123,14 @@ function updateDisplay() {
 
 	for (var i = 0; i < ingredientNodes.potatoes.cost.length; i++) {
 		ingredientNodes.potatoes.cost[i].innerHTML = calcIngredientCost('potatoes');
+	}
+
+	for (var i = 0; i < ingredientNodes.milk.current.length; i++) {
+		ingredientNodes.milk.current[i].innerHTML = ingredient.milk;
+	}
+
+	for (var i = 0; i < ingredientNodes.milk.cost.length; i++) {
+		ingredientNodes.milk.cost[i].innerHTML = calcIngredientCost('milk');
 	}
 
 	for (var i = 0; i < ingredientNodes.flour.current.length; i++) {
@@ -154,6 +176,14 @@ function updateDisplay() {
 		ingredientStorageNodes.potatoes.cost[i].innerHTML = calcStorageCost('potatoesStorage');
 	}
 
+	for (var i = 0; i < ingredientStorageNodes.milk.current.length; i++) {
+		ingredientStorageNodes.milk.current[i].innerHTML = ingredientStorage.milk;
+	}
+
+	for (var i = 0; i < ingredientStorageNodes.milk.cost.length; i++) {
+		ingredientStorageNodes.milk.cost[i].innerHTML = calcStorageCost('milkStorage');
+	}
+
 	for (var i = 0; i < ingredientStorageNodes.flour.current.length; i++) {
 		ingredientStorageNodes.flour.current[i].innerHTML = ingredientStorage.flour;
 	}
@@ -194,6 +224,13 @@ function updateDisplay() {
 			}
 		}
 
+	if (stats.potatoes >= 0) {
+		var showMilkNodes = document.getElementsByClassName('showMilk');
+		for(var i = 0; i < showMilkNodes.length; i++) {
+			showMilkNodes[i].style.display = "block";
+			}
+		}
+
 	if (stats.potatoes >= 10) {
 		var showPotatoFriesNodes = document.getElementsByClassName('showPotatoFries');
 		for(var i = 0; i < showPotatoFriesNodes.length; i++) {
@@ -217,11 +254,12 @@ function updateDisplay() {
 
 ////// UPDATES STATS-------------------------------
 	statsNode.goodwill.innerHTML = stats.goodwill;
-    statsNode.ffmoney.innerHTML = stats.ffmoney;
+	statsNode.ffmoney.innerHTML = stats.ffmoney;
 	statsNode.potatoes.innerHTML = stats.potatoes;
-    statsNode.potatoFries.innerHTML = stats.potatoFries;
+	statsNode.milk.innerHTML = stats.milk;
 	statsNode.flour.innerHTML = stats.flour;
-    statsNode.crackers.innerHTML = stats.crackers;
+	statsNode.potatoFries.innerHTML = stats.potatoFries;
+	statsNode.crackers.innerHTML = stats.crackers;
 
 }
 
@@ -250,7 +288,9 @@ function calcIngredientCost(name) {
             } else {
                 return Math.round( Math.pow(ingredient.potatoes, 1.1));
             }
-        case 'flour':
+		case 'milk':
+			return 1;
+		case 'flour':
             return 2;
         default:
             throw new Error(`Unknown ingredient ${name}`);
@@ -346,7 +386,9 @@ function calcStorageCost(name) {
     switch(name) {
         case 'potatoesStorage':
             return ingredientStorage.potatoes * 2;
-        case 'flourStorage':
+		case 'milkStorage':
+            return ingredientStorage.milk * 2;
+		case 'flourStorage':
             return ingredientStorage.flour * 2;
 		case 'potatoFriesStorage':
             return foodStorage.potatoFries * 2;
@@ -429,7 +471,7 @@ function save() {
 	};
 	try {
 		localStorage.setItem(SAVE_NAME, JSON.stringify( saveobject ));
-    console.log('Saved', `Goodwill: ${stats.goodwill}, FF Money: ${ffmoney}, Potatoes: ${ingredient.potatoes}, Flour: ${ingredient.flour}`);
+    console.log('Saved', `Goodwill: ${stats.goodwill}, Ingredient: ${ingredient}, FF Money: ${ffmoney}, Potatoes: ${ingredient.potatoes}, Milk: ${ingredient.milk}, Flour: ${ingredient.flour}`);
     setMessage('Food Fare Saved!');
 	} catch(e) {
 		console.error('Save Error:', e);

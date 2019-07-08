@@ -140,8 +140,13 @@ border-top: none;
 /*////UNFOLDING FEATURE/////UNFOLDING FEATURE/////UNFOLDING FEATURE////////////////////*/
 /*////UNFOLDING FEATURE/////UNFOLDING FEATURE/////UNFOLDING FEATURE////////////////////*/
 
-.showStorage {
+/*
+.showStorage, .showPotatoes, .showMilk, .showFlour,.showPotatoFries, .showCrackers{
 	display: none;
+}
+*/
+
+.showStorage {
 	width: 100%;
 	/*padding: 0px 0;*/
 	text-indent: 5px;
@@ -159,12 +164,8 @@ border-top: none;
 	border:1px solid black;
 }
 
-.showPotatoes, .showPotatoFries, .showFlour, .showCrackers{
-	display: none;
-}
 
-
-.showPotatoes p, .showPotatoFries p, .showFlour p, .showCrackers p{
+.showPotatoes p, .showMilk p, .showFlour p, .showPotatoFries p, .showCrackers p{
 	line-height: 1em;
 	margin:0.5em 0;
 	text-indent: 5px;
