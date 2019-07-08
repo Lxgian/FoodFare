@@ -6,26 +6,28 @@
 	</head>
 
 	<!--TO DO
-	1. Change BUY FREEDOM into a modal
-	1. Add Recipes
-	2. Move stats/ saves/ to a new js file
-	4. add onload function (update display0)
+	- Update Tutorial
+	- Add Recipes
+	- Move updateDisplay to a new JS file
+	- Move stats/ saves/ to a new JS file
+	- Add onload function (update display)
 	-->
 
 	<body>
 		<h1>Food Fare by Lxgian</h1>
 
-		<h3><button onclick="toggleOptionsModal()">Options</button> Read for new updates (04/07/19)</h3>
+		<h3><button onclick="toggleOptionsModal()">Options</button> Read for new updates (08/07/19)</h3>
 			<div id="optionsModal" class="modal">
 				<div class="modal-content">
 					<div id="modal-content-options">
 						<span class="close">&times;</span>
 						<p1><strong>Food Fare Options</strong> by Lxgian</p1>
-						<p><strong>Version 0.1.2 -- 04/07/19</strong></p>
+						<p><strong>Version 0.1.2 -- 08/07/19</strong></p>
 							<div>
-								<p>Added Ingredient: ---</p>
-								<p>Added Food: ---</p>
+								<p>Added Ingredient: Milk, Flour</p>
+								<p>Added Food: Cheese, Bread, Cheesy fries, Cheesy potato rolls</p>
 								<p>System: Added Unfolding</p>
+								<p>System: Added backward-compatible saving system-ish</p>
 								<p>UI: Updated using modals</p>
 							</div>
 						<button onclick="save()">Save</button>
@@ -45,17 +47,17 @@
 						<span class="close">&times;</span>
 						<p1><strong>Food Fare Tutorial</strong> by Lxgian</p1>
 							<div>
-				      			<p> Your current only objective is to "BUY YOUR FREEDOM" with $100 </p>
-								<p> 1. Buy Potatoes </p>
-								<p>	2. Cook Potato Fries </p>
-								<p>	3. Sell Potato Fries </p>
+				      			<p> Your current only objective is to "BUY YOUR FREEDOM" for $300 </p>
+								<p> 1. Buy Ingredients </p>
+								<p>	2. Cook using Ingredients and other food </p>
+								<p>	3. Sell Food </p>
 								<p>	4. Repeat </p>
 							</div>
 					</div>
 				</div>
 			</div>
 
-		<p><button onclick="toggleFreedomModal()">BUY FREEDOM</button> Required: FF Money $100</p>
+		<p><button onclick="toggleFreedomModal()">BUY FREEDOM</button> Required: FF Money $300</p>
 			<div id="freedomModal" class="modal">
 				<div class="modal-content">
 					<div id="modal-content-freedom">
@@ -70,7 +72,7 @@
 				</div>
 			</div>
 
-		<p>FF Money: $<span id="ffmoney">10</span></p>
+		<p>FF Money: $<span class="ffmoney">40</span></p>
 
 		<!-- Tab links -->
 		<div class="tab">
@@ -87,14 +89,32 @@
 
 			<div class="showPotatoFries showFoodStyle">
 				<p>Potato Fries: (<span class="potatoFries">0</span> / <span class="potatoFriesStorage">10</span>) </p>
-				<p>Cost (<span class="potatoFriesCost">2</span> potatoes): <button onclick="var obj = cookFood(food.potatoFries, ingredient.potatoes, 1, 'potatoFries'); food.potatoFries = obj.foodAmount; ingredient.potatoes = obj.ingredientAmount; updateDisplay();">Cook 1</button> </p>
+				<p>Cost (<span class="potatoFriesCost">2</span> potatoes): <button onclick="var obj = cookFood1(food.potatoFries, ingredient.potatoes, 1, 'potatoFries'); food.potatoFries = obj.foodAmount; ingredient.potatoes = obj.ingredientAmount; updateDisplay();">Cook 1</button> </p>
 				<p>Sell ($<span class="potatoFriesValue">3</span>): <button onclick="food.potatoFries = sellFood(food.potatoFries, 1, 'potatoFries'); updateDisplay();">Sell 1</button> </p>
 			</div>
 
-			<div class="showCrackers showFoodStyle">
-				<p>Crackers: (<span class="crackers">0</span> / <span class="crackersStorage">10</span>) </p>
-				<p>Cost (<span class="crackersCost">1</span> flour): <button onclick="var obj = cookFood(food.crackers, ingredient.flour, 1, 'crackers'); food.crackers = obj.foodAmount; ingredient.flour = obj.ingredientAmount; updateDisplay();">Cook 1</button>  </p>
-				<p>Sell ($<span class="crackersValue">3</span>): <button onclick="food.crackers = sellFood(food.crackers, 1, 'crackers'); updateDisplay();">Sell 1</button>  </p>
+			<div class="showCheese showFoodStyle">
+				<p>Cheese: (<span class="cheese">0</span> / <span class="cheeseStorage">10</span>) </p>
+				<p>Cost (<span class="cheeseCost">2</span> milk): <button onclick="var obj = cookFood1(food.cheese, ingredient.milk, 1, 'cheese'); food.cheese = obj.foodAmount; ingredient.milk = obj.ingredientAmount; updateDisplay();">Cook 1</button> </p>
+				<p>Sell ($<span class="cheeseValue">3</span>): <button onclick="food.cheese = sellFood(food.cheese, 1, 'cheese'); updateDisplay();">Sell 1</button> </p>
+			</div>
+
+			<div class="showBread showFoodStyle">
+				<p>Bread: (<span class="bread">0</span> / <span class="breadStorage">10</span>) </p>
+				<p>Cost (<span class="breadCost-milk">1</span> milk, <span class="breadCost-flour">1</span> flour): <button onclick="var obj = cookFood2(food.bread, ingredient.milk, ingredient.flour, 1, 'bread'); food.bread = obj.foodAmount; ingredient.milk = obj.rawAmount1, ingredient.flour = obj.rawAmount2; updateDisplay();">Cook 1</button>  </p>
+				<p>Sell ($<span class="breadValue">3</span>): <button onclick="food.bread = sellFood(food.bread, 1, 'bread'); updateDisplay();">Sell 1</button>  </p>
+			</div>
+
+			<div class="showCheesyfries showFoodStyle">
+				<p>Cheesy Fries: (<span class="cheesyfries">0</span> / <span class="cheesyfriesStorage">10</span>) </p>
+				<p>Cost (<span class="cheesyfriesCost-fries">2</span> potato fries, <span class="cheesyfriesCost-cheese">2</span> cheese): <button onclick="var obj = cookFood2(food.cheesyfries, food.potatoFries, food.cheese, 1, 'cheesyfries'); food.cheesyfries = obj.foodAmount; food.potatoFries = obj.rawAmount1, food.cheese = obj.rawAmount2; updateDisplay();">Cook 1</button>  </p>
+				<p>Sell ($<span class="cheesyfriesValue">15</span>): <button onclick="food.cheesyfries = sellFood(food.cheesyfries, 1, 'cheesyfries'); updateDisplay();">Sell 1</button>  </p>
+			</div>
+
+			<div class="showCheesypotatorolls showFoodStyle">
+				<p>Cheesy Potato Rolls: (<span class="cheesypotatorolls">0</span> / <span class="cheesypotatorollsStorage">10</span>) </p>
+				<p>Cost (<span class="cheesypotatorollsCost-potatoes">2</span> potatoes, <span class="cheesypotatorollsCost-cheese">2</span> cheese, <span class="cheesypotatorollsCost-bread">2</span> bread): <button onclick="var obj = cookFood3(food.cheesypotatorolls, ingredient.potatoes, food.cheese, food.bread, 1, 'cheesypotatorolls'); food.cheesypotatorolls = obj.foodAmount; ingredient.potatoes = obj.rawAmount1, food.cheese = obj.rawAmount2, food.bread = obj.rawAmount3; updateDisplay();">Cook 1</button>  </p>
+				<p>Sell ($<span class="cheesypotatorollsValue">20</span>): <button onclick="food.cheesypotatorolls = sellFood(food.cheesypotatorolls, 1, 'cheesypotatorolls'); updateDisplay();">Sell 1</button>  </p>
 			</div>
 
 		</div>
@@ -125,15 +145,28 @@
 					<div class="showPotatoes">
 						<p>Potato Storage: (<span class="potatoesStorage">10</span>) <button onclick="ingredientStorage.potatoes = buyStorage(ingredientStorage.potatoes, 1, 'potatoesStorage'); updateDisplay();">Expand ($<span class="potatoesStorageCost">20</span>)</button></p>
 					</div>
+					<div class="showMilk">
+						<p>Milk Storage: (<span class="milkStorage">10</span>) <button onclick="ingredientStorage.milk = buyStorage(ingredientStorage.milk, 1, 'milkStorage'); updateDisplay();">Expand ($<span class="milkStorageCost">20</span>)</button></p>
+					</div>
 					<div class="showFlour">
 						<p>Flour Storage: (<span class="flourStorage">10</span>) <button onclick="ingredientStorage.flour = buyStorage(ingredientStorage.flour, 1, 'flourStorage'); updateDisplay();">Expand ($<span class="flourStorageCost">20</span>)</button></p>
 					</div>
 					<div class="showPotatoFries">
 						<p>Potato Fries Storage: (<span class="potatoFriesStorage">10</span>) <button onclick="foodStorage.potatoFries = buyStorage(foodStorage.potatoFries, 1, 'potatoFriesStorage'); updateDisplay();">Expand ($<span class="potatoFriesStorageCost">20</span>)</button></p>
 					</div>
-					<div class="showCrackers">
-						<p>Crackers Storage: (<span class="crackersStorage">10</span>) <button onclick="foodStorage.crackers = buyStorage(foodStorage.crackers, 1, 'crackersStorage'); updateDisplay();">Expand ($<span class="crackersStorageCost">20</span>)</button></p>
+					<div class="showCheese">
+						<p>Cheese Storage: (<span class="cheeseStorage">10</span>) <button onclick="foodStorage.cheese = buyStorage(foodStorage.cheese, 1, 'cheeseStorage'); updateDisplay();">Expand ($<span class="cheeseStorageCost">20</span>)</button></p>
 					</div>
+					<div class="showBread">
+						<p>Bread Storage: (<span class="breadStorage">10</span>) <button onclick="foodStorage.bread = buyStorage(foodStorage.bread, 1, 'breadStorage'); updateDisplay();">Expand ($<span class="breadStorageCost">20</span>)</button></p>
+					</div>
+					<div class="showCheesyfries">
+						<p>Cheesy Fries Storage: (<span class="cheesyfriesStorage">10</span>) <button onclick="foodStorage.cheesyfries = buyStorage(foodStorage.cheesyfries, 1, 'cheesyfriesStorage'); updateDisplay();">Expand ($<span class="cheesyfriesStorageCost">20</span>)</button></p>
+					</div>
+					<div class="showCheesypotatorolls">
+						<p>Cheesy Potato Rolls Storage: (<span class="cheesypotatorollsStorage">10</span>) <button onclick="foodStorage.cheesypotatorolls = buyStorage(foodStorage.cheesypotatorolls, 1, 'cheesypotatorollsStorage'); updateDisplay();">Expand ($<span class="cheesypotatorollsStorageCost">20</span>)</button></p>
+					</div>
+
 			</div>
 
 --------------------------
@@ -147,17 +180,43 @@
 
 		<div id="Statistics" class="tabcontent">
 		  <h3>Statistics</h3>
-		  <p>Gameplay Statistics (total this game)</p> <br>
+		  <p>Gameplay Statistics (total this game)</p>
 
+
+			<p>Goodwill: <span id="stat_goodwill">0</span></p>
+			<p>FF Money: <span id="stat_ffmoney">40</span></p>
+
+
+			<p class="showPotatoes">Potatoes: <span id="stat_potatoes">0</span></p>
+			<p class="showMilk">Milk: <span id="stat_milk">0</span></p>
+			<p class="showFlour">Flour: <span id="stat_flour">0</span></p>
+
+
+			<p class="showPotatoFries">Potato Fries: <span id="stat_potatoFries">0</span></p>
+			<p class="showCheese">Cheese: <span id="stat_cheese">0</span></p>
+			<p class="showBread">Bread: <span id="stat_bread">0</span></p>
+			<p class="showCheesyfries">Cheesy Fries: <span id="stat_cheesyfries">0</span></p>
+			<p class="showCheesypotatorolls">Cheesy Potato Rolls: <span id="stat_cheesypotatorolls">0</span></p>
+
+
+		<!--
 			<p>
 			Goodwill: <span id="stat_goodwill">0</span> <br>
-			FF Money: <span id="stat_ffmoney">10</span> <br>
+			FF Money: <span id="stat_ffmoney">40</span> <br>
+			</p>
+			<p>
 			Potatoes: <span id="stat_potatoes">0</span> <br>
 			Milk: <span id="stat_milk">0</span> <br>
 			Flour: <span id="stat_flour">0</span> <br>
-			Potato Fries: <span id="stat_potatoFries">0</span> <br>
-			Crackers: <span id="stat_crackers">0</span>
 			</p>
+			<p>
+			Potato Fries: <span id="stat_potatoFries">0</span> <br>
+			Cheese: <span id="stat_cheese">0</span> <br>
+			Bread: <span id="stat_bread">0</span> <br>
+			Cheesy Fries: <span id="stat_cheesyfries">0</span> <br>
+			Cheesy Potato Rolls: <span id="stat_cheesyfries">0</span>
+			</p>
+		-->
 
 		</div>
 
